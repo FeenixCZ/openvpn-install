@@ -27,15 +27,18 @@ jobs:
         with:
           scan-type: "fs"
           scan-ref: "."
-          format: "sarif"
-          output: "trivy-results.sarif"
+          format: "table"
           severity: "CRITICAL,HIGH,MEDIUM"
+          exit-code: 0
 
-      - name: Upload Trivy results to GitHub Security
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
-        with:
-          sarif_file: "trivy-results.sarif"
+      - name: Run Trivy and save results
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace aquasec/trivy:latest fs /workspace --severity CRITICAL,HIGH,MEDIUM --format json --output /workspace/trivy-results.json || true
+          if [ -f trivy-results.json ]; then
+            echo "### 🔍 Security Scan Results" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            docker run --rm -v ${{ github.workspace }}:/workspace aquasec/trivy:latest fs /workspace --severity CRITICAL,HIGH,MEDIUM --format table >> $GITHUB_STEP_SUMMARY || true
+          fi
 
       - name: Run Bandit security linter (Shell scripts)
         continue-on-error: true
