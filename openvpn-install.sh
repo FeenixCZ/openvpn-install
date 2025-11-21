@@ -534,7 +534,13 @@ verb 3" > /etc/openvpn/server/client-common.txt
 
 	systemctl enable --now openvpn-server@server.service
 	
-	grep -vh '^#' /etc/openvpn/server/client-common.txt /etc/openvpn/server/easy-rsa/pki/inline/private/"$client".inline > "$script_dir"/"$client".ovpn
+	# Generate client config with tls-crypt key
+	{
+		grep -vh '^#' /etc/openvpn/server/client-common.txt /etc/openvpn/server/easy-rsa/pki/inline/private/"$client".inline
+		echo "<tls-crypt>"
+		cat /etc/openvpn/server/tc.key
+		echo "</tls-crypt>"
+	} > "$script_dir"/"$client".ovpn
 	
 	log_info "Finished!"
 	echo
@@ -554,7 +560,13 @@ add_client() {
 	done
 	cd /etc/openvpn/server/easy-rsa/ || fatal_error "Failed to change directory to Easy-RSA" $E_GENERAL
 	./easyrsa --batch --days=3650 build-client-full "$client" nopass
-	grep -vh '^#' /etc/openvpn/server/client-common.txt /etc/openvpn/server/easy-rsa/pki/inline/private/"$client".inline > "$script_dir"/"$client".ovpn
+	# Generate client config with tls-crypt key
+	{
+		grep -vh '^#' /etc/openvpn/server/client-common.txt /etc/openvpn/server/easy-rsa/pki/inline/private/"$client".inline
+		echo "<tls-crypt>"
+		cat /etc/openvpn/server/tc.key
+		echo "</tls-crypt>"
+	} > "$script_dir"/"$client".ovpn
 	echo
 	log_info "$client added. Configuration available in:" "$script_dir"/"$client.ovpn"
 }

@@ -394,6 +394,31 @@ Should return `1`
 
 - **Solution:** Enable TUN/TAP in your VPS control panel (common in OpenVZ containers)
 
+#### Issue: "tls-crypt unwrap error: packet too short"
+
+**Error in logs:**
+
+```log
+tls-crypt unwrap error: packet too short
+TLS Error: tls-crypt unwrapping failed from [AF_INET]x.x.x.x:xxxxx
+```
+
+**Cause:** Client is using an outdated or incorrect `.ovpn` configuration file that doesn't match the server's tls-crypt key.
+
+**Solutions:**
+
+- **For authorized clients:** Regenerate the client configuration by running the installation script again and creating a new client profile
+- **For unknown IPs:** These are likely port scanning attempts or unauthorized connection attempts - they can be safely ignored
+- **After server reinstall:** All existing client configurations become invalid and must be regenerated
+
+**To regenerate a client config:**
+
+```bash
+sudo bash openvpn-install.sh
+```
+
+Select option 1 to add a new client or option 2 to revoke and recreate an existing one.
+
 ## File Locations
 
 ### Server Configuration
