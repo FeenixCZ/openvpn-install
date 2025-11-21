@@ -5,9 +5,19 @@
 <h1 align="center">OpenVPN Road Warrior Installer</h1>
 
 <p align="center">
+  <a href="https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/test.yml"><img src="https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/test.yml/badge.svg" alt="Installation Test"></a>
+  <a href="https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/multi-distro-test.yml"><img src="https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/multi-distro-test.yml/badge.svg" alt="Multi-Distro Test"></a>
   <a href="https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/security.yml"><img src="https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/security.yml/badge.svg" alt="Security Scanning"></a>
   <a href="https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/shellcheck.yml"><img src="https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/shellcheck.yml/badge.svg" alt="ShellCheck"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Ubuntu-22.04%20%7C%2024.04-E95420?logo=ubuntu&logoColor=white" alt="Ubuntu">
+  <img src="https://img.shields.io/badge/Debian-11%20%7C%2012-A81D33?logo=debian&logoColor=white" alt="Debian">
+  <img src="https://img.shields.io/badge/AlmaLinux-9-0F4266?logo=almalinux&logoColor=white" alt="AlmaLinux">
+  <img src="https://img.shields.io/badge/Rocky%20Linux-9-10B981?logo=rockylinux&logoColor=white" alt="Rocky Linux">
+  <img src="https://img.shields.io/badge/Fedora-Latest-51A2DA?logo=fedora&logoColor=white" alt="Fedora">
 </p>
 
 <p align="center">
