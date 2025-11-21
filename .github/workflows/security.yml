@@ -1,0 +1,50 @@
+name: Security Scanning
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run weekly on Monday at 00:00 UTC
+    - cron: "0 0 * * 1"
+
+jobs:
+  security-scan:
+    name: Security Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: "fs"
+          scan-ref: "."
+          format: "sarif"
+          output: "trivy-results.sarif"
+          severity: "CRITICAL,HIGH,MEDIUM"
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: "trivy-results.sarif"
+
+      - name: Run Bandit security linter (Shell scripts)
+        continue-on-error: true
+        run: |
+          # Check for common security issues in shell scripts
+          echo "Scanning for hardcoded credentials..."
+          ! grep -rE '(password|passwd|pwd|secret|token|api_key)=[^\s]+' --include="*.sh" . || echo "Warning: Potential hardcoded credentials found"
+
+          echo "Checking for unsafe commands..."
+          ! grep -rE '(eval|exec|source)\s+\$' --include="*.sh" . || echo "Warning: Potentially unsafe command execution found"
+
+          echo "Security scan completed"
