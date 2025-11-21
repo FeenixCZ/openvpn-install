@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  openvpn-test:
+    build: .
+    container_name: openvpn-test
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    ports:
+      - "1194:1194/udp"
+    volumes:
+      - ./openvpn-install.sh:/opt/openvpn-install.sh
+      - openvpn-data:/etc/openvpn
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+
+volumes:
+  openvpn-data:

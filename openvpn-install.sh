@@ -349,7 +349,6 @@ LimitNPROC=infinity" > /etc/systemd/system/openvpn-server@server.service.d/disab
 	# PKI Init
 	./easyrsa --batch init-pki
 	./easyrsa --batch build-ca nopass
-	./easyrsa gen-tls-crypt-key
 
 	# DH Params
 	log_info "Generating DH parameters..."
@@ -369,9 +368,12 @@ ssbzSibBsu/6iGtCOGEoXJf//////////wIBAg==
 	./easyrsa --batch --days=3650 build-client-full "$client" nopass
 	./easyrsa --batch --days=3650 gen-crl
 
+	# Generate TLS-Crypt key
+	log_info "Generating TLS-Crypt key..."
+	openvpn --genkey secret /etc/openvpn/server/tc.key
+
 	# Move Files
 	cp pki/ca.crt pki/private/ca.key pki/issued/server.crt pki/private/server.key pki/crl.pem /etc/openvpn/server
-	cp pki/private/easyrsa-tls.key /etc/openvpn/server/tc.key
 	chown nobody:"$group_name" /etc/openvpn/server/crl.pem
 	chmod o+x /etc/openvpn/server/
 
