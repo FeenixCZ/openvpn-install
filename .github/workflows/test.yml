@@ -2,192 +2,192 @@ name: OpenVPN Installation Test
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'openvpn-install.sh'
-      - '.github/workflows/test.yml'
+      - "openvpn-install.sh"
+      - ".github/workflows/test.yml"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'openvpn-install.sh'
-      - '.github/workflows/test.yml'
+      - "openvpn-install.sh"
+      - ".github/workflows/test.yml"
   workflow_dispatch:
 
 jobs:
   test-installation:
     runs-on: ubuntu-22.04
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Set up test environment
-      run: |
-        echo "Setting up test environment..."
-        sudo apt-get update -qq
-        
-    - name: Test OpenVPN Installation Script
-      run: |
-        set +e  # Don't exit on error
-        
-        echo "========================================="
-        echo "OpenVPN Installation Test"
-        echo "========================================="
-        echo ""
-        
-        # Make script executable
-        chmod +x openvpn-install.sh
-        
-        # Get server IP
-        export SERVER_IP=$(ip -4 addr show eth0 | grep inet | awk '{print $2}' | cut -d'/' -f1)
-        echo "Server IP: $SERVER_IP"
-        echo ""
-        
-        # Run installation with auto-answers
-        echo "Running installation..."
-        sudo bash openvpn-install.sh <<EOF
-        1
-        
-        1194
-        1
-        1
-        8.8.8.8
-        github-actions-test
-        EOF
-        
-        INSTALL_EXIT_CODE=$?
-        echo ""
-        echo "Installation exit code: $INSTALL_EXIT_CODE"
-        
-    - name: Verify Installation
-      run: |
-        echo ""
-        echo "========================================="
-        echo "Verification Results"
-        echo "========================================="
-        echo ""
-        
-        # Check OpenVPN installation
-        echo "1. OpenVPN Installation:"
-        if command -v openvpn &> /dev/null; then
-            openvpn --version | head -1
-            echo "   ✅ OpenVPN installed"
-        else
-            echo "   ❌ OpenVPN NOT installed"
-            exit 1
-        fi
-        
-        echo ""
-        echo "2. Server Configuration:"
-        if [ -f /etc/openvpn/server/server.conf ]; then
-            echo "   ✅ Server config exists"
-            echo "   Size: $(stat -c%s /etc/openvpn/server/server.conf) bytes"
-        else
-            echo "   ❌ Server config NOT found"
-            exit 1
-        fi
-        
-        echo ""
-        echo "3. Certificates:"
-        ALL_CERTS_OK=true
-        for cert in ca.crt server.crt server.key; do
-            if [ -f /etc/openvpn/server/$cert ]; then
-                echo "   ✅ $cert exists"
-            else
-                echo "   ❌ $cert NOT found"
-                ALL_CERTS_OK=false
-            fi
-        done
-        
-        if [ "$ALL_CERTS_OK" = false ]; then
-            exit 1
-        fi
-        
-        echo ""
-        echo "4. TLS-Crypt Key:"
-        if [ -f /etc/openvpn/server/tc.key ]; then
-            SIZE=$(stat -c%s /etc/openvpn/server/tc.key)
-            if [ $SIZE -gt 0 ]; then
-                echo "   ✅ tc.key exists ($SIZE bytes)"
-            else
-                echo "   ❌ tc.key is empty"
-                exit 1
-            fi
-        else
-            echo "   ❌ tc.key NOT found"
-            exit 1
-        fi
-        
-        echo ""
-        echo "5. DH Parameters:"
-        if [ -f /etc/openvpn/server/dh.pem ]; then
-            echo "   ✅ dh.pem exists"
-        else
-            echo "   ❌ dh.pem NOT found"
-            exit 1
-        fi
-        
-        echo ""
-        echo "6. CRL:"
-        if [ -f /etc/openvpn/server/crl.pem ]; then
-            echo "   ✅ crl.pem exists"
-        else
-            echo "   ❌ crl.pem NOT found"
-            exit 1
-        fi
-        
-        echo ""
-        echo "7. Client Configuration:"
-        if [ -f /root/client.ovpn ] || [ -f ~/client.ovpn ] || [ -f /opt/client.ovpn ]; then
-            echo "   ✅ Client config created"
-        else
-            echo "   ⚠️  Client config not found (checking...)"
-            find /root /home /opt -name "*.ovpn" 2>/dev/null || echo "   No .ovpn files found"
-        fi
-        
-        echo ""
-        echo "8. Log File:"
-        if [ -f /var/log/openvpn-install.log ]; then
-            echo "   ✅ Log file exists"
-            echo ""
-            echo "   Last 3 log entries:"
-            sudo tail -3 /var/log/openvpn-install.log | sed 's/^/   /'
-        else
-            echo "   ❌ Log file NOT found"
-        fi
-        
-        echo ""
-        echo "9. OpenVPN Service:"
-        if systemctl is-enabled openvpn-server@server.service &> /dev/null; then
-            echo "   ✅ Service is enabled"
-        else
-            echo "   ⚠️  Service not enabled (may be expected)"
-        fi
-        
-        if systemctl is-active openvpn-server@server.service &> /dev/null; then
-            echo "   ✅ Service is running"
-        else
-            echo "   ⚠️  Service not running"
-            echo ""
-            echo "   Service status:"
-            sudo systemctl status openvpn-server@server.service --no-pager -l | tail -20 | sed 's/^/   /'
-        fi
-        
-        echo ""
-        echo "10. Configuration Syntax Test:"
-        sudo openvpn --config /etc/openvpn/server/server.conf --test-crypto 2>&1 | head -10 | sed 's/^/   /'
-        
-        echo ""
-        echo "========================================="
-        echo "✅ All critical checks passed!"
-        echo "========================================="
 
-    - name: Upload artifacts
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-results
-        path: |
-          /var/log/openvpn-install.log
-          /etc/openvpn/server/server.conf
-        if-no-files-found: warn
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up test environment
+        run: |
+          echo "Setting up test environment..."
+          sudo apt-get update -qq
+
+      - name: Test OpenVPN Installation Script
+        run: |
+          set +e  # Don't exit on error
+
+          echo "========================================="
+          echo "OpenVPN Installation Test"
+          echo "========================================="
+          echo ""
+
+          # Make script executable
+          chmod +x openvpn-install.sh
+
+          # Get server IP
+          export SERVER_IP=$(ip -4 addr show eth0 | grep inet | awk '{print $2}' | cut -d'/' -f1)
+          echo "Server IP: $SERVER_IP"
+          echo ""
+
+          # Run installation with auto-answers
+          echo "Running installation..."
+          sudo bash openvpn-install.sh <<EOF
+          1
+
+          1194
+          1
+          1
+          8.8.8.8
+          github-actions-test
+          EOF
+
+          INSTALL_EXIT_CODE=$?
+          echo ""
+          echo "Installation exit code: $INSTALL_EXIT_CODE"
+
+      - name: Verify Installation
+        run: |
+          echo ""
+          echo "========================================="
+          echo "Verification Results"
+          echo "========================================="
+          echo ""
+
+          # Check OpenVPN installation
+          echo "1. OpenVPN Installation:"
+          if command -v openvpn &> /dev/null; then
+              openvpn --version | head -1
+              echo "   ✅ OpenVPN installed"
+          else
+              echo "   ❌ OpenVPN NOT installed"
+              exit 1
+          fi
+
+          echo ""
+          echo "2. Server Configuration:"
+          if [ -f /etc/openvpn/server/server.conf ]; then
+              echo "   ✅ Server config exists"
+              echo "   Size: $(stat -c%s /etc/openvpn/server/server.conf) bytes"
+          else
+              echo "   ❌ Server config NOT found"
+              exit 1
+          fi
+
+          echo ""
+          echo "3. Certificates:"
+          ALL_CERTS_OK=true
+          for cert in ca.crt server.crt server.key; do
+              if [ -f /etc/openvpn/server/$cert ]; then
+                  echo "   ✅ $cert exists"
+              else
+                  echo "   ❌ $cert NOT found"
+                  ALL_CERTS_OK=false
+              fi
+          done
+
+          if [ "$ALL_CERTS_OK" = false ]; then
+              exit 1
+          fi
+
+          echo ""
+          echo "4. TLS-Crypt Key:"
+          if [ -f /etc/openvpn/server/tc.key ]; then
+              SIZE=$(stat -c%s /etc/openvpn/server/tc.key)
+              if [ $SIZE -gt 0 ]; then
+                  echo "   ✅ tc.key exists ($SIZE bytes)"
+              else
+                  echo "   ❌ tc.key is empty"
+                  exit 1
+              fi
+          else
+              echo "   ❌ tc.key NOT found"
+              exit 1
+          fi
+
+          echo ""
+          echo "5. DH Parameters:"
+          if [ -f /etc/openvpn/server/dh.pem ]; then
+              echo "   ✅ dh.pem exists"
+          else
+              echo "   ❌ dh.pem NOT found"
+              exit 1
+          fi
+
+          echo ""
+          echo "6. CRL:"
+          if [ -f /etc/openvpn/server/crl.pem ]; then
+              echo "   ✅ crl.pem exists"
+          else
+              echo "   ❌ crl.pem NOT found"
+              exit 1
+          fi
+
+          echo ""
+          echo "7. Client Configuration:"
+          if [ -f /root/client.ovpn ] || [ -f ~/client.ovpn ] || [ -f /opt/client.ovpn ]; then
+              echo "   ✅ Client config created"
+          else
+              echo "   ⚠️  Client config not found (checking...)"
+              find /root /home /opt -name "*.ovpn" 2>/dev/null || echo "   No .ovpn files found"
+          fi
+
+          echo ""
+          echo "8. Log File:"
+          if [ -f /var/log/openvpn-install.log ]; then
+              echo "   ✅ Log file exists"
+              echo ""
+              echo "   Last 3 log entries:"
+              sudo tail -3 /var/log/openvpn-install.log | sed 's/^/   /'
+          else
+              echo "   ❌ Log file NOT found"
+          fi
+
+          echo ""
+          echo "9. OpenVPN Service:"
+          if systemctl is-enabled openvpn-server@server.service &> /dev/null; then
+              echo "   ✅ Service is enabled"
+          else
+              echo "   ⚠️  Service not enabled (may be expected)"
+          fi
+
+          if systemctl is-active openvpn-server@server.service &> /dev/null; then
+              echo "   ✅ Service is running"
+          else
+              echo "   ⚠️  Service not running"
+              echo ""
+              echo "   Service status:"
+              sudo systemctl status openvpn-server@server.service --no-pager -l | tail -20 | sed 's/^/   /'
+          fi
+
+          echo ""
+          echo "10. Configuration Syntax Test:"
+          sudo openvpn --config /etc/openvpn/server/server.conf --test-crypto 2>&1 | head -10 | sed 's/^/   /'
+
+          echo ""
+          echo "========================================="
+          echo "✅ All critical checks passed!"
+          echo "========================================="
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            /var/log/openvpn-install.log
+            /etc/openvpn/server/server.conf
+          if-no-files-found: warn
