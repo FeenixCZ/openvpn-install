@@ -28,6 +28,14 @@
   <a href="https://github.com/xdev-asia-labs/openvpn-install/graphs/contributors"><img src="https://img.shields.io/github/contributors/xdev-asia-labs/openvpn-install" alt="GitHub contributors"></a>
 </p>
 
+<p align="center">
+  <a href="README.md">🇬🇧 English</a> •
+  <a href="README-vi.md">🇻🇳 Tiếng Việt</a> •
+  <a href="https://xdev.asia/blog/cai-dat-openvpn-tren-ubuntu-24-04">📖 Hướng dẫn chi tiết</a>
+</p>
+
+---
+
 An automated bash script to install and manage OpenVPN server with road warrior configuration on Linux servers.
 
 ## Overview
