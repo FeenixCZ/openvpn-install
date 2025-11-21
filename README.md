@@ -1,13 +1,22 @@
-# OpenVPN Road Warrior Installer
+<p align="center">
+  <img src="assets/banner.jpeg" alt="OpenVPN Road Warrior Installer Banner" width="100%">
+</p>
 
-[![Security Scanning](https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/security.yml/badge.svg)](https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/security.yml)
-[![ShellCheck](https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/shellcheck.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/xdev-asia-labs/openvpn-install?style=social)](https://github.com/xdev-asia-labs/openvpn-install/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/xdev-asia-labs/openvpn-install?style=social)](https://github.com/xdev-asia-labs/openvpn-install/network/members)
-[![GitHub last commit](https://img.shields.io/github/last-commit/xdev-asia-labs/openvpn-install)](https://github.com/xdev-asia-labs/openvpn-install/commits/main)
-[![GitHub code size](https://img.shields.io/github/languages/code-size/xdev-asia-labs/openvpn-install)](https://github.com/xdev-asia-labs/openvpn-install)
-[![GitHub contributors](https://img.shields.io/github/contributors/xdev-asia-labs/openvpn-install)](https://github.com/xdev-asia-labs/openvpn-install/graphs/contributors)
+<h1 align="center">OpenVPN Road Warrior Installer</h1>
+
+<p align="center">
+  <a href="https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/security.yml"><img src="https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/security.yml/badge.svg" alt="Security Scanning"></a>
+  <a href="https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/shellcheck.yml"><img src="https://github.com/xdev-asia-labs/openvpn-install/actions/workflows/shellcheck.yml/badge.svg" alt="ShellCheck"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/xdev-asia-labs/openvpn-install/stargazers"><img src="https://img.shields.io/github/stars/xdev-asia-labs/openvpn-install?style=social" alt="GitHub stars"></a>
+  <a href="https://github.com/xdev-asia-labs/openvpn-install/network/members"><img src="https://img.shields.io/github/forks/xdev-asia-labs/openvpn-install?style=social" alt="GitHub forks"></a>
+  <a href="https://github.com/xdev-asia-labs/openvpn-install/commits/main"><img src="https://img.shields.io/github/last-commit/xdev-asia-labs/openvpn-install" alt="GitHub last commit"></a>
+  <a href="https://github.com/xdev-asia-labs/openvpn-install"><img src="https://img.shields.io/github/languages/code-size/xdev-asia-labs/openvpn-install" alt="GitHub code size"></a>
+  <a href="https://github.com/xdev-asia-labs/openvpn-install/graphs/contributors"><img src="https://img.shields.io/github/contributors/xdev-asia-labs/openvpn-install" alt="GitHub contributors"></a>
+</p>
 
 An automated bash script to install and manage OpenVPN server with road warrior configuration on Linux servers.
 
